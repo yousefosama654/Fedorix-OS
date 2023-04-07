@@ -87,7 +87,7 @@ $ make run
 
 - **C Programming Language**
 
- <h2 align='center'><a name = "Contributors">⭐ Contributors ⭐ </h2>
+ <h2 align='center' <a name = "Contributors"> >⭐ Contributors ⭐ </h2>
 <!-- readme: collaborators -start -->
 <table  align='center'> 
 <tr>
