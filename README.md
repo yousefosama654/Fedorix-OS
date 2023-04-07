@@ -1,4 +1,5 @@
-# Fedorix-OS
+
+<h1 align='center'>Fedorix-OS</h1>
 
 <div align='center'><img src="Screenshots/unix.jpg"></div>
 
