@@ -1,5 +1,8 @@
 # Fedorix-OS
 
+<div align='center'><img src="Screenshots/unix.jpg"></div>
+
+
 ## 📝 Table of Contents
 
 - [About](#about)
