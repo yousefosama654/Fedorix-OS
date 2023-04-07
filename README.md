@@ -6,7 +6,7 @@
 - [System Description](#sys)
 - [Get started](#get-started)
   - [Prerequisite](#req)
-  - [Installation](#Install)
+  - [Installation](#install)
   - [Running](#running)
 - [Technology](#tech)
 - [Demo Outputs](#outputs)
@@ -41,7 +41,7 @@
 1. Any unix based system
 2. GCC compiler installed
 
-### Installation <a name = "Install"></a>
+### Installation <a name = "install"></a>
 
 1. **_Clone the repository_**
 
