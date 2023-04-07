@@ -34,7 +34,7 @@
 ## 🏁 Getting Started <a name = "get-started"></a>
 
 > This is an list of needed instructions to set up your project locally, to get a local copy up and running follow these
-> instructuins.
+> instructions.
 
 ### Prerequisite <a name = "req"></a>
 
