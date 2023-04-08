@@ -53,7 +53,7 @@
 $ git clone https://github.com/yousefosama654/Fedorix-OS.git
 ```
 
-2. **_Navigate to Phase2 Folder_**
+2. **_Navigate to Phase1 Folder_**
 
 ```sh
 $ cd Phase1
@@ -78,13 +78,19 @@ $ make build
 3. **_Run the test generator to generate a files of random procceses_**
 
 ```sh
-$ ./bin/test_generator.out
+$ make test
 ```
 
 4. **_Now run the scheduler_**
 
 ```sh
 $ make run
+```
+
+4. **_For all automated run use _**
+
+```sh
+$ make all
 ```
 
 ## 💻 Built Using <a name = "tech"></a>
