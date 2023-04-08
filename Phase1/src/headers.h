@@ -23,19 +23,28 @@ typedef struct
 } processData;
 typedef struct
 {
+   
     int id;
+    int Pid;
     char state[10];
     int priority;
     int arrivaltime;
     int runningtime;
     int waitingtime;
+
+    int starttime;
+    int responsetime;
+    int cummultiverunningtime;   
+   
+
 } PCB;
 #define true 1
 #define false 0
 
 #define SHKEY 300
 
-#define PQKEY 400
+#define PKEY 200
+
 ///==============================
 // don't mess with this variable//
 int *shmaddr; //
@@ -57,10 +66,15 @@ void initClk()
     {
         // Make sure that the clock exists
         printf("Wait! The clock not initialized yet!\n");
-        sleep(1);
+    
+          sleep(1);
+        
+              
         shmid = shmget(SHKEY, 4, 0444);
     }
+   
     shmaddr = (int *)shmat(shmid, (void *)0, 0);
+   
 }
 
 /*

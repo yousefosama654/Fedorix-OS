@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     signal(SIGINT, cleanup);
     int clk = 0;
     // Create shared memory for one integer variable 4 bytes
-    shmid = shmget(SHKEY, 4, IPC_CREAT | 0644);
+    shmid = shmget(SHKEY, 4 ,IPC_CREAT | 0644);
     if ((long)shmid == -1)
     {
         perror("Error in creating shm!");

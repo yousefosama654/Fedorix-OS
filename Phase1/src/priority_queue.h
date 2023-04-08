@@ -6,7 +6,7 @@ typedef struct PriorityQueueElement
 {
     // int priority;
     // int data;
-    PCB process;
+    processData process;
     struct PriorityQueueElement *next;
 } PriorityQueueElement;
 // Structure to represent a priority queue
@@ -19,7 +19,7 @@ void pq_init(PriorityQueue *pq)
     pq->head = NULL;
 }
 // Function to add an element to the priority queue
-void pq_push(PriorityQueue *pq, PCB data)
+void pq_push(PriorityQueue *pq, processData data)
 {
     PriorityQueueElement *newElement = malloc(sizeof(PriorityQueueElement));
     // newElement->data = priority;
@@ -55,11 +55,11 @@ int pq_empty(PriorityQueue *pq)
         return false;
 }
 // Function to remove the element with the highest priority from the priority queue
-PCB pq_pop(PriorityQueue *pq)
+processData pq_pop(PriorityQueue *pq)
 {
     if (pq_empty(pq) == false)
     {
-        PCB result = pq->head->process;
+        processData result = pq->head->process;
         PriorityQueueElement *temp = pq->head;
         pq->head = pq->head->next;
         free(temp);
