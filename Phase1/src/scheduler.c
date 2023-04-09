@@ -1,41 +1,51 @@
 #include "headers.h"
 #include "priority_queue.h"
-PriorityQueue *PriorityQueueHPF = NULL;
 void SignalINThandler(int signnum);
-PriorityQueue *getPrioityQueueHPF()
+PriorityQueue *PriorityQueueHPF = NULL;
+void SetPrioityQueueHPF()
 {
-    // Create shared memory for PriorityQueueHPF
+    // Create shared memory for one PriorityQueue
     int pqid = shmget(PQKEY, sizeof(PriorityQueue), IPC_CREAT | 0644);
     if ((long)pqid == -1)
     {
         perror("Error in creating priority queue!");
         exit(-1);
     }
-    PriorityQueue *pqaddr = (PriorityQueue *)shmat(pqid, (void *)0, 0);
-    if ((long)pqaddr == -1)
+    PriorityQueueHPF = (PriorityQueue *)shmat(pqid, (void *)0, 0);
+    PriorityQueueHPF = (PriorityQueue *)malloc(sizeof(PriorityQueue));
+    if ((long)PriorityQueueHPF == -1)
     {
         perror("Error in attaching the priority queue!");
         exit(-1);
     }
-    return pqaddr;
 }
-
+// PCB *currentProcessHPF = NULL;
+// void getProcessHPF()
+// {
+//     // Create shared memory for one PriorityQueue
+//     int pqid = shmget(12, sizeof(PCB), 0644);
+//     if ((long)pqid == -1)
+//     {
+//         perror("Error in creating process HPF!");
+//         exit(-1);
+//     }
+//     PCB *pqaddr = (PCB *)shmat(pqid, (void *)0, 0);
+//     if ((long)pqaddr == -1)
+//     {
+//         perror("Error in attaching process HPF!");
+//         exit(-1);
+//     }
+//     currentProcessHPF = pqaddr;
+// }
+// int previd = -1;
 void HPF()
 {
-    while (pq_empty(PriorityQueueHPF) != false)
-    {
-        PCB process = pq_pop(PriorityQueueHPF);
-        printf("pid id %d has arrived safely\n", process.id);
-        // int pid = fork();
-        // if (pid == 0)
-        // {
-        //     execl("./bin/process.out", "process.out", NULL);
-        // }
-        // else
-        // {
-
-        // }
-    }
+    PCB p;
+    p.id = -1;
+    pq_push(PriorityQueueHPF, p);
+    printf("printing from scudler\n");
+    pq_display(PriorityQueueHPF);
+    Sleep(3);
 }
 void SRTN()
 {
@@ -45,7 +55,8 @@ void RR()
 }
 int main(int argc, char *argv[])
 {
-    signal(SIGINT, SignalINThandler);
+
+    // signal(SIGINT, SignalINThandler);
     initClk();
     char *Scheduling_Algo = argv[1];
     if (strcmp(Scheduling_Algo, "RR") == 0)
@@ -66,20 +77,17 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("Highest Prioity First Next Algorithm starting...\n");
-        PriorityQueueHPF = getPrioityQueueHPF();
+        printf("Highest Prioity First Algorithm starting...\n");
+        SetPrioityQueueHPF();
         while (1)
         {
             HPF();
         }
     }
-
-    // TODO implement the scheduler :)
-    // upon termination release the clock resources.
-    // destroyClk(true);
 }
 void SignalINThandler(int signnum)
 {
     free(PriorityQueueHPF);
+    killpg(getpgrp(), SIGINT);
     exit(0);
 }

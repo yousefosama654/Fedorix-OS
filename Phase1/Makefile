@@ -14,5 +14,3 @@ run:
 	@./bin/process_generator.out
 
 all: clean build test run
-
-

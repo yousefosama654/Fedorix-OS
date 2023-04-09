@@ -1,24 +1,43 @@
 #include "headers.h"
 #include "priority_queue.h"
 void clearResources(int);
-PriorityQueue *getPrioityQueueHPF()
+PriorityQueue *PriorityQueueHPF = NULL;
+void SetPrioityQueueHPF()
 {
-    // Create shared memory for one integer variable 4 bytes
+    // Create shared memory for one PriorityQueue
     int pqid = shmget(PQKEY, sizeof(PriorityQueue), IPC_CREAT | 0644);
     if ((long)pqid == -1)
     {
         perror("Error in creating priority queue!");
         exit(-1);
     }
-    PriorityQueue *pqaddr = (PriorityQueue *)shmat(pqid, (void *)0, 0);
-    if ((long)pqaddr == -1)
+    PriorityQueueHPF = (PriorityQueue *)shmat(pqid, (void *)0, 0);
+    PriorityQueueHPF = (PriorityQueue *)malloc(sizeof(PriorityQueue));
+    if ((long)PriorityQueueHPF == -1)
     {
         perror("Error in attaching the priority queue!");
         exit(-1);
     }
-    return pqaddr;
+    pq_init(PriorityQueueHPF);
 }
-PriorityQueue *PriorityQueueHPF = NULL;
+// PCB *currentProcessHPF = NULL;
+// void getProcessHPF()
+// {
+//     // Create shared memory for one PriorityQueue
+//     int pqid = shmget(12, sizeof(PCB), IPC_CREAT | 0644);
+//     if ((long)pqid == -1)
+//     {
+//         perror("Error in creating process HPF!");
+//         exit(-1);
+//     }
+//     PCB *pqaddr = (PCB *)shmat(pqid, (void *)0, 0);
+//     if ((long)pqaddr == -1)
+//     {
+//         perror("Error in attaching process HPF!");
+//         exit(-1);
+//     }
+//     currentProcessHPF = pqaddr;
+// }
 int main(int argc, char *argv[])
 {
     signal(SIGINT, clearResources);
@@ -46,6 +65,13 @@ int main(int argc, char *argv[])
         Processes[i].waitingtime = 0;
     }
     scanf("%ms", &Scheduling_Algo);
+    if (strcmp(Scheduling_Algo, "HPF") == 0)
+    {
+        SetPrioityQueueHPF();
+        // printf(" i am before tha shared memory\n");
+        // PriorityQueueHPF = getPrioityQueueHPF();
+        // getProcessHPF();
+    }
     if (strcmp(Scheduling_Algo, "SRTN") != 0 && strcmp(Scheduling_Algo, "HPF") != 0 && strcmp(Scheduling_Algo, "RR") != 0)
     {
         printf("Fedorix OS Schdeuler does not supprt this Algorithm.\n");
@@ -67,30 +93,35 @@ int main(int argc, char *argv[])
         else
         {
             int i = 0;
-            while (1)
+            initClk();
+            while (i < ProcessesNum)
             {
                 // 4. Use this function after creating the clock process to initialize clock
-                initClk();
                 // To get time use this function
                 int x = getClk();
                 // printf("current time is %d\n", x);
                 if (Processes[i].arrivaltime == x)
                 {
                     // 6. Send the information to the scheduler at the appropriate time.
-                    if (strcmp(Scheduling_Algo, "RR") == 0)
+                    if (strcmp(Scheduling_Algo, "HPF") == 0)
                     {
-                        PriorityQueueHPF = getPrioityQueueHPF();
-                        pq_push(PriorityQueueHPF, Processes[i]);
-                        i++;
+                        // printf("process at %d\n", x);
+                        // printf("found pid %d with arrival time %d at time %d\n", Processes[i].id, Processes[i].arrivaltime, x);
+                        pq_push(PriorityQueueHPF, Processes[i++]);
+                        // printf("i sent a process\n");
+                        // *currentProcessHPF = Processes[i++];
                     }
                 }
             }
         }
     }
+    // printf("the pointer from origin is = %p\n", PriorityQueueHPF);
+    pq_display(PriorityQueueHPF);
+    // printf("end of process generator\n");
     // TODO Generation Main Loop
     // 5. Create a data structure for processes and provide it with its parameters.
     // 7. Clear clock resources
-    destroyClk(true);
+    // destroyClk(true);
 }
 
 void clearResources(int signum)

@@ -21,7 +21,8 @@ int main(int argc, char *argv[])
         // generate Data Randomly
         //[min-max] = rand() % (max_number + 1 - minimum_number) + minimum_number
         pData.id = i;
-        pData.arrivaltime += rand() % (11); // processes arrives in order
+        // pData.arrivaltime += rand() % (11); // processes arrives in order
+        pData.arrivaltime += rand() % (3); // processes arrives in order by yousef osama
         pData.runningtime = rand() % (30);
         pData.priority = rand() % (11);
         fprintf(pFile, "%d\t%d\t%d\t%d\n", pData.id, pData.arrivaltime, pData.runningtime, pData.priority);
