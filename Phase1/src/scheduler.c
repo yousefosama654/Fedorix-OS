@@ -45,7 +45,7 @@ void HPF()
     pq_push(PriorityQueueHPF, p);
     printf("printing from scudler\n");
     pq_display(PriorityQueueHPF);
-    Sleep(3);
+    sleep(3);
 }
 void SRTN()
 {
