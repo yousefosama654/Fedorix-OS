@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include "string.h"
+#include "math.h"
 typedef short bool;
 typedef struct
 {
@@ -23,19 +24,36 @@ typedef struct
 } processData;
 typedef struct
 {
+   
     int id;
+    int Pid;
     char state[10];
     int priority;
     int arrivaltime;
     int runningtime;
     int waitingtime;
+    int finishtime;
+    int starttime;
+    int responsetime;
+    int cummultiverunningtime;   
+   
+
 } PCB;
+typedef struct
+{
+    processData p;
+    long mtype;
+} ProcessMessage;
+
 #define true 1
 #define false 0
 
+#define MKEY 200
+
 #define SHKEY 300
 
-#define PQKEY 400
+#define PKEY 200
+
 ///==============================
 // don't mess with this variable//
 int *shmaddr; //
@@ -57,10 +75,15 @@ void initClk()
     {
         // Make sure that the clock exists
         printf("Wait! The clock not initialized yet!\n");
-        sleep(1);
+    
+          sleep(1);
+        
+              
         shmid = shmget(SHKEY, 4, 0444);
     }
+   
     shmaddr = (int *)shmat(shmid, (void *)0, 0);
+   
 }
 
 /*
@@ -79,4 +102,13 @@ void destroyClk(bool terminateAll)
         killpg(getpgrp(), SIGINT);
     }
 }
+
+
+
+char* tostring(int num) {
+    char* str = (char*)malloc(12);  // Allocate enough memory for the largest possible integer (10 digits) plus a null terminator
+    snprintf(str, 12, "%d", num);  // Convert the integer to a string using snprintf()
+    return str;
+}
+
 #endif /* HEADERS_H_ */

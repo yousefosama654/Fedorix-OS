@@ -4,6 +4,8 @@
 // Structure to represent a priority queue element
 typedef struct PriorityQueueElement
 {
+    // int priority;
+    // int data;
     PCB process;
     struct PriorityQueueElement *next;
 } PriorityQueueElement;
@@ -19,30 +21,49 @@ void pq_init(PriorityQueue *pq)
 // Function to add an element to the priority queue
 void pq_push(PriorityQueue *pq, PCB data)
 {
-    // printf("start the push function\n");
     PriorityQueueElement *newElement = malloc(sizeof(PriorityQueueElement));
-    // printf("malloced sucess\n");
+    // newElement->data = priority;
     newElement->process = data;
-    // printf("made the process suc\n");
     newElement->next = NULL;
-    // printf("set the null ptr\n");
-    // printf("the pid is = %d with arrival time = %d\n", newElement->process.id, newElement->process.arrivaltime);
     if (pq->head == NULL)
     {
-        // printf(" iam in the if cond\n");
         pq->head = newElement;
     }
     else if (data.priority < pq->head->process.priority)
     {
-        // printf("i am in the special cond\n");
         newElement->next = pq->head;
         pq->head = newElement;
     }
     else
     {
-        // printf("i am in the general cond\n");
         PriorityQueueElement *current = pq->head;
         while (current->next != NULL && current->next->process.priority <= data.priority)
+        {
+            current = current->next;
+        }
+        newElement->next = current->next;
+        current->next = newElement;
+    }
+}
+void pq_pushSRTN(PriorityQueue *pq, PCB data)
+{
+    PriorityQueueElement *newElement = malloc(sizeof(PriorityQueueElement));
+    // newElement->data = priority;
+    newElement->process = data;
+    newElement->next = NULL;
+    if (pq->head == NULL)
+    {
+        pq->head = newElement;
+    }
+    else if (data.runningtime-data.cummultiverunningtime < pq->head->process.runningtime-pq->head->process.cummultiverunningtime)
+    {
+        newElement->next = pq->head;
+        pq->head = newElement;
+    }
+    else
+    {
+        PriorityQueueElement *current = pq->head;
+        while (current->next != NULL && current->next->process.runningtime-current->next->process.cummultiverunningtime <=data.runningtime-data.cummultiverunningtime)
         {
             current = current->next;
         }
@@ -71,14 +92,11 @@ PCB pq_pop(PriorityQueue *pq)
         return result;
     }
 }
-void pq_display(PriorityQueue *pq)
+PCB peek(PriorityQueue *pq)
 {
-    PriorityQueueElement *temp = pq->head;
-    while (temp != NULL)
-    {
-        PCB foo = temp->process;
-        printf("pid %d with priority %d\n", foo.id, foo.priority);
-        temp = temp->next;
-    }
+    if(pq_empty(pq)==0)
+    
+    return pq->head->process;
 }
+
 #endif /* PRIORITY_QUEUE_H_ */
