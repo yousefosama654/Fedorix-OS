@@ -23,7 +23,7 @@
 
 ## 📃 System Description <a name = "sys"></a>
 
-- Consider a Computer with 1-CPU and infinite memory . Our scheduler implemented the complementary components as sketched in the following diagrams.
+- Consider a Computer with 1-CPU and 1024 bytes  memory . Our scheduler implemented the complementary components as sketched in the following diagrams.
 
 📌 NOTE:
 
