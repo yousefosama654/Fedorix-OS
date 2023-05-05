@@ -22,7 +22,7 @@ typedef struct
     int priority;
     int runningtime;
     int id;
-   
+    int memsize;
 } processData;
 typedef struct
 {
@@ -37,7 +37,9 @@ typedef struct
     int starttime;
     int responsetime;
     int cummultiverunningtime;
-
+    int memsize;
+    int memidx;
+    int memblocks;
 } PCB;
 typedef struct
 {

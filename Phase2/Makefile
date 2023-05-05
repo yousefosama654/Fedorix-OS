@@ -10,11 +10,10 @@ clean:
 test:
 	@./bin/test_generator.out
 
-# run:
-# 	@./bin/process_generator.out processes.txt -sch 2
+# run: @./bin/process_generator.out
 
 cleanlog:
 	@rm -f ./Log/memory.log ./Log/Scheduler.log  ./Log/Scheduler.perf
 
 all: clean build test 
-# all: cleanlog build 
+#   all: cleanlog build 

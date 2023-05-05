@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
     signal(SIGINT, clearResources);
     char *filename = argv[1];
+    int Memory_Algo;
     int Scheduling_Algo = atoi(argv[3]);
     if (Scheduling_Algo != 1 && Scheduling_Algo != 2 && Scheduling_Algo != 3)
     {
@@ -22,11 +23,22 @@ int main(int argc, char *argv[])
     if (Scheduling_Algo == 3)
     {
         Quantum = atoi(argv[5]);
+        Memory_Algo = atoi(argv[7]);
     }
-    char file[30] = "./Log/";
-    strcat(file, filename);
+    else
+    {
+        Memory_Algo = atoi(argv[5]);
+    }
+    if (Memory_Algo != 1 && Memory_Algo != 2)
+    {
+        printf("Fedorix OS Schdeuler does not supprt this memory managment algorithm.\n");
+        return 0;
+    }
+
     FILE *pFile;
     // 1. Read the input files.
+    char file[30] = "./Log/";
+    strcat(file, filename);
     pFile = fopen(file, "r");
     if (pFile == NULL)
     {
@@ -46,13 +58,13 @@ int main(int argc, char *argv[])
         fscanf(pFile, "%d", &Processes[i].arrivaltime);
         fscanf(pFile, "%d", &Processes[i].runningtime);
         fscanf(pFile, "%d", &Processes[i].priority);
+        fscanf(pFile, "%d", &Processes[i].memsize);
     }
-
     // 3. Initiate and create the scheduler and clock processes.
     int pid = fork();
     if (pid == 0)
     {
-        execl("./bin/scheduler.out", "scheduler.out", tostring(Scheduling_Algo), tostring(ProcessesNum), tostring(Quantum), NULL);
+        execl("./bin/scheduler.out", "scheduler.out", tostring(Scheduling_Algo), tostring(ProcessesNum), tostring(Quantum), tostring(Memory_Algo), NULL);
     }
     else
     {

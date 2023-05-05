@@ -33,6 +33,17 @@ int q_empty(CircularQueue *q)
     return (q->head == NULL && q->tail == NULL);
 }
 
+
+void display(CircularQueue * q)
+{
+
+CircularQueueElement *temp = q->head;
+while(temp!=NULL){
+    printf("data  %d \n", temp->process.id);
+temp=temp->next;
+}
+}
+
 // Check if the queue is full
 // int isQueueFull(Queue* q) {
 //     Node* temp = (Node*)malloc(sizeof(Node));
@@ -51,12 +62,10 @@ void q_push(CircularQueue *q, PCB data)
     newNode->process = data;
     newNode->next = NULL;
 
-    if (q_empty(q) == 1)
+    if (q_empty(q)==1)
     {
-
         q->head = newNode;
         q->tail = newNode;
-
         return;
     }
     q->tail->next = newNode;
@@ -88,25 +97,47 @@ PCB q_pop(CircularQueue *q)
 
 bool pop_object(CircularQueue * q,CircularQueueElement*p)
 {
-   if(q->head==NULL) return false;
+   if(q->head==NULL)
+   
+   {
+     if (q->head == NULL)
+    {
+        q->tail = NULL;
+    }
+     return false;
+   }
    CircularQueueElement *prev = NULL;
    CircularQueueElement *temp = q->head;
-
    while(temp!=NULL)
    {
      if(temp==p)
      {
-        if(prev==NULL)q->head=q->head->next;
-        else prev->next=temp->next;
+        if(prev==NULL)
+        
+        {
 
-      //  free(temp);
-         return true;
+             q->head=q->head->next;
+        }
+     
+        else prev->next=temp->next;
+    if (q->head == NULL)
+    {
+        q->tail = NULL;
+    }
+        return true;
      }
      else{
         prev=temp;
         temp=temp->next;
      }
    }
+        if (q->head == NULL)
+    {
+        q->tail = NULL;
+    }
+    return true;
 }
+
+
 
 #endif /* PRIORITY_QUEUE_H_ */
