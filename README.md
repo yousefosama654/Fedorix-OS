@@ -56,7 +56,7 @@ $ git clone https://github.com/yousefosama654/Fedorix-OS.git
 2. **_Navigate to Phase1 Folder_**
 
 ```sh
-$ cd Phase1
+$ cd Phase2
 ```
 
 ### Running <a name = "running"></a>
